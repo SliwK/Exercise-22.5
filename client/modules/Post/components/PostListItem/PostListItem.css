@@ -118,3 +118,20 @@ textarea {
     font-size: 16px;
     color: #555;
 }
+
+.post-points {
+  float: right;
+}
+button {
+  height: 20px;
+  width: 20px;
+
+  border-radius: 10px;
+  border-style: none;
+  text-align: center;
+}
+
+button:hover {
+  color: white;
+  background-color: #03A9F4;  
+}
