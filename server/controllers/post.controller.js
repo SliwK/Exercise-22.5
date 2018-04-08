@@ -87,3 +87,22 @@ export function deletePost(req, res) {
     });
   });
 }
+
+//obsługa dodawania głosów za i przeciw
+export function thumbUp(req, res) {
+  Post.update({ cuid: req.params.cuid }, {likes: req.body.voteCount + 1}).exec((err, post) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ post });
+  });
+}
+
+export function thumbDown(req, res) {
+  Post.update({ cuid: req.params.cuid }, {likes: req.body.voteCount - 1}).exec((err, post) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ post });
+  });
+}
