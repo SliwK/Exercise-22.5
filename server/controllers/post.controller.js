@@ -15,7 +15,9 @@ export function getPosts(req, res) {
       res.status(500).send(err);
     }
     res.json({ posts });
+  //  console.log("posty: ", posts);
   });
+
 }
 
 /**
@@ -90,19 +92,42 @@ export function deletePost(req, res) {
 
 //obsługa dodawania głosów za i przeciw
 export function thumbUp(req, res) {
-  Post.update({ cuid: req.params.cuid }, {likes: req.body.voteCount + 1}).exec((err, post) => {
+//  console.log("log reg: ", req.params);
+/*  Post.update({ cuid: req.params.cuid }, {voteCount: req.body.voteCount + 1}).exec((err, post) => {
     if (err) {
       res.status(500).send(err);
     }
     res.json({ post });
   });
+*/
+Post.findOne({ cuid: req.params.cuid }).exec((err, post) => {
+  if (err) {
+    res.status(500).send(err);
+  }
+//  console.log("post: " , post);
+  post.update({voteCount: post.voteCount + 1}, () => {
+    res.status(200).end();
+  });
+});
+
 }
 
 export function thumbDown(req, res) {
-  Post.update({ cuid: req.params.cuid }, {likes: req.body.voteCount - 1}).exec((err, post) => {
+  Post.findOne({ cuid: req.params.cuid }).exec((err, post) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+//    console.log("post: " , post);
+    post.update({voteCount: post.voteCount - 1}, () => {
+      res.status(200).end();
+    });
+  });
+/*
+  Post.update({ cuid: req.params.cuid }, {voteCount: req.body.voteCount - 1}).exec((err, post) => {
     if (err) {
       res.status(500).send(err);
     }
     res.json({ post });
   });
+*/
 }
